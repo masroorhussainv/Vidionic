@@ -4,49 +4,51 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidionic.Models;
+using System.Data.Entity;
 
 namespace Vidionic.Controllers
 {
     public class CustomersController : Controller
     {
+        private ApplicationDbContext _context;
 
-        private IEnumerable<Customer> getCustomers()
+        public CustomersController()
         {
-            return new List<Customer>
-            {
-                new Customer {Name = "Masroor",Id = 1},
-                new Customer { Name = "Hasan" ,Id=2},
-                new Customer { Name = "Abdul Wakeel",Id=3 }
-            };
+            _context=new ApplicationDbContext();
         }
+        //applicationdb context is a disposable object
+        //therefore to dispose it, override base class (COntroller's) dispose method
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
+        //private IEnumerable<Customer> getCustomers()
+        //{
+        //    return new List<Customer>
+        //    {
+        //        new Customer {Name = "Masroor",Id = 1},
+        //        new Customer { Name = "Hasan" ,Id=2},
+        //        new Customer { Name = "Abdul Wakeel",Id=3 }
+        //    };
+        //}
 
         // GET: Customers
         public ActionResult Index()
         {
-            IEnumerable<Customer> customers = getCustomers();
+            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
 
             return View(customers);
         }
 
         public ActionResult Details(int id)
         {
-            Customer c1 = new Customer {Name = "Masroor",Id = 1};
-            Customer c2 = new Customer { Name = "Hasan" ,Id=2};
-            Customer c3 = new Customer { Name = "Abdul Wakeel",Id=3 };
-
-            if (id==1)
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            if (customer == null)
             {
-                return View(c1);
+                return HttpNotFound();
             }
-            else if(id==2)
-            {
-                return View(c2);
-            }
-            else if (id == 3)
-            {
-                return View(c3);
-            }
-            return View();
+            return View(customer);
         }
     }
 }
