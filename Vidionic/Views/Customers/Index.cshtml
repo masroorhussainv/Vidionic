@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Vidionic.Models.Customer>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>Customer Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var customer in Model)
+    {
+        <tr>
+            @*<td>@Html.ActionLink("Details", @customer.Name,"Details", new {id=@customer.Id})</td>*@
+            <td>@Html.ActionLink(@customer.Name, "Details", "Customers", new { id = @customer.Id }, null)</td>
+        </tr>
+    }
+    </tbody>
+</table>
