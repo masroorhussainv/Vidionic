@@ -223,6 +223,18 @@
     <Compile Include="Migrations\201811300555539_ApplyAnnotationsToCustomerName.Designer.cs">
       <DependentUpon>201811300555539_ApplyAnnotationsToCustomerName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811300756241_AddMembershipTypeName.cs" />
+    <Compile Include="Migrations\201811300756241_AddMembershipTypeName.Designer.cs">
+      <DependentUpon>201811300756241_AddMembershipTypeName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811300758312_SetMembershipNamesOfExistingRecords.cs" />
+    <Compile Include="Migrations\201811300758312_SetMembershipNamesOfExistingRecords.Designer.cs">
+      <DependentUpon>201811300758312_SetMembershipNamesOfExistingRecords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811300816184_AddBirthdateToCustomer.cs" />
+    <Compile Include="Migrations\201811300816184_AddBirthdateToCustomer.Designer.cs">
+      <DependentUpon>201811300816184_AddBirthdateToCustomer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -326,6 +338,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811300555539_ApplyAnnotationsToCustomerName.resx">
       <DependentUpon>201811300555539_ApplyAnnotationsToCustomerName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811300756241_AddMembershipTypeName.resx">
+      <DependentUpon>201811300756241_AddMembershipTypeName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811300758312_SetMembershipNamesOfExistingRecords.resx">
+      <DependentUpon>201811300758312_SetMembershipNamesOfExistingRecords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811300816184_AddBirthdateToCustomer.resx">
+      <DependentUpon>201811300816184_AddBirthdateToCustomer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
