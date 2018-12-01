@@ -7,11 +7,24 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Vidionic.Models;
 using Vidionic.ViewModels;
+using System.Data.Entity;
 
 namespace Vidionic.Controllers
 {
     public class MoviesController : Controller
     {
+        private ApplicationDbContext _context;
+
+        public MoviesController()
+        {
+            _context=new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
         // GET: Movies
         public ActionResult Random()
         {
@@ -32,11 +45,7 @@ namespace Vidionic.Controllers
 
             return View(vm);
         }
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        
 
         //public ActionResult Index(int? pageIndex,string sortBy)
         //{
@@ -52,22 +61,23 @@ namespace Vidionic.Controllers
         //    return View();
         //}
 
-        private IEnumerable<Movie> getMovies()
-        {
-            return new List<Movie>
-            {
-                new Movie {Name = "Snatch"},
-                new Movie {Name = "Avengers: Infinity War"},
-                new Movie {Name = "Lord of the Rings"}
-            };
-        }
-
+      
         public ActionResult Index()
         {
-            IEnumerable<Movie> movies = getMovies();
+            var movies = _context.Movies.Include(m => m.Genre).ToList();
 
             return View(movies);
         }
+
+        //[Route("/movies/details/{id}")]
+        public ActionResult Details(int id)
+        {
+            var movie = _context.Movies.Include(m=>m.Genre).SingleOrDefault(m => m.Id == id);
+            if (movie == null)
+                return HttpNotFound();
+            return View(movie);
+        }
+
 
 
         [Route("movies/released/{year}/{month:range(1,12)}")]

@@ -6,25 +6,20 @@
 
 <h2>Movies</h2>
 
-@if (Model.Count == 0)
-{
-    <p>There are no movies available.</p>
-}
-else
-{
-    <table class="table table-bordered table-hover">
-        <thead>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>Movie Name</th>
+        <th>Genre</th>
+    </tr> 
+    </thead>
+    <tbody>
+    @foreach (var movie in Model)
+    {
         <tr>
-           <th>Movie Name</th>
-        </tr> 
-        </thead>
-        <tbody>
-            @foreach (var movie in Model)
-            {
-                <tr>
-                    <td>@movie.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+            <td>@Html.ActionLink(@movie.Name, "Details", "Movies", new { id = @movie.Id }, null)</td>
+            <td>@movie.Genre.Name</td>
+        </tr>
+    }
+    </tbody>
+</table>
