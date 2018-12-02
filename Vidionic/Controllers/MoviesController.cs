@@ -8,6 +8,7 @@ using Microsoft.Ajax.Utilities;
 using Vidionic.Models;
 using Vidionic.ViewModels;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 
 namespace Vidionic.Controllers
 {
@@ -85,7 +86,62 @@ namespace Vidionic.Controllers
         {
             return Content("Year "+year+", "+"Month "+month);
         }
-        
 
+
+        public ViewResult New()
+        {
+            var genres = _context.Genres.ToList();
+            var viewModel = new MovieFormViewModel
+            {
+                Genres = genres
+            };
+            return View("MovieForm", viewModel);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
+            if (movie == null)
+                return HttpNotFound();
+            var viewModel = new MovieFormViewModel
+            {
+                Movie = movie,
+                Genres = _context.Genres.ToList()
+            };
+            return View("MovieForm", viewModel);
+        }
+
+
+        [HttpPost]
+        public ActionResult Save(Movie movie)
+        {
+            if (movie.Id == 0)
+            {
+                //its a new movie to be added into db
+                movie.DateAdded = DateTime.Now;
+                _context.Movies.Add(movie);
+            }
+            else
+            {
+                //it's an old movie being updated
+                var movieInDb = _context.Movies.Single(m => m.Id == movie.Id);
+                movieInDb.Name = movie.Name;
+                movieInDb.GenreId = movie.GenreId;
+                movieInDb.NumberInStock = movie.NumberInStock;
+                movieInDb.ReleaseDate = movie.ReleaseDate;
+            }
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            
+
+            return RedirectToAction("Index", "Movies");
+        }
     }
 }

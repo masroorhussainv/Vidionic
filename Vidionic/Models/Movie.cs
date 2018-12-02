@@ -16,12 +16,17 @@ namespace Vidionic.Models
         public string Name { get; set; }
 
         public DateTime DateAdded { get; set; }
+
+        [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
+
+        [Display(Name = "Number in Stock")]
         public byte NumberInStock { set; get; }
 
-        [Required]
+        [Display(Name = "Genre")]
         public Genre Genre { get; set; }
 
+        [Required]
         public byte GenreId { get; set; }
     }
 }
