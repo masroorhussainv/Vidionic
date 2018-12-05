@@ -21,6 +21,7 @@ namespace Vidionic.Models
         public DateTime ReleaseDate { get; set; }
 
         [Display(Name = "Number in Stock")]
+        [Range(1, 20)]
         public byte NumberInStock { set; get; }
 
         [Display(Name = "Genre")]
