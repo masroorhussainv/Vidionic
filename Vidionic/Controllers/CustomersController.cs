@@ -24,22 +24,12 @@ namespace Vidionic.Controllers
             _context.Dispose();
         }
 
-        //private IEnumerable<Customer> getCustomers()
-        //{
-        //    return new List<Customer>
-        //    {
-        //        new Customer {Name = "Masroor",Id = 1},
-        //        new Customer { Name = "Hasan" ,Id=2},
-        //        new Customer { Name = "Abdul Wakeel",Id=3 }
-        //    };
-        //}
+       
 
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
-
-            return View(customers);
+            return View();
         }
 
         public ActionResult New()

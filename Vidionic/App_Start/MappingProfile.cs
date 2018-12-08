@@ -15,7 +15,9 @@ namespace Vidionic.App_Start
             Mapper.CreateMap<Customer, CustomerDto>();
             Mapper.CreateMap<Movie, MovieDto>();
 
-            Mapper.CreateMap<CustomerDto, Customer>()
+	        Mapper.CreateMap<MembershipType, MembershipTypeDto>();
+
+			Mapper.CreateMap<CustomerDto, Customer>()
                 .ForMember(c => c.Id, opt => opt.Ignore());
 
             Mapper.CreateMap<MovieDto, Movie>()

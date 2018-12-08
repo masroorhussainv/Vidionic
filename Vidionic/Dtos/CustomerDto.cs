@@ -19,6 +19,8 @@ namespace Vidionic.Dtos
 
         public byte MembershipTypeId { get; set; }
 
-        public DateTime? Birthdate { get; set; }
+		public MembershipTypeDto MembershipTypeDto { get; set; }
+
+		public DateTime? Birthdate { get; set; }
     }
 }
