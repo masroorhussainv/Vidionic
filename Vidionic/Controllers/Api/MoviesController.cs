@@ -14,23 +14,22 @@ namespace Vidionic.Controllers.Api
 {
     public class MoviesController : ApiController
     {
-        private ApplicationDbContext _context;
-
+        //private ApplicationDbContext _context;
+	    private DAL dal;
         public MoviesController()
         {
-            _context = new ApplicationDbContext();
+            //_context = new ApplicationDbContext();
+			dal=new DAL();
         }
 	    public IEnumerable<MovieDto> GetMovies()
         {
-			return _context.Movies
-				.Include(m => m.Genre)
-				.ToList()
+			return dal.GetMovies()
 				.Select(Mapper.Map<Movie, MovieDto>);
 		}
 
         public IHttpActionResult GetMovie(int id)
         {
-            var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
+	        var movie = dal.GetMovieSingleOrDefaultLazyLoad(id);
 
             if (movie == null)
                 return NotFound();
@@ -46,8 +45,10 @@ namespace Vidionic.Controllers.Api
                 return BadRequest();
 
             var movie = Mapper.Map<MovieDto, Movie>(movieDto);
-            _context.Movies.Add(movie);
-            _context.SaveChanges();
+            //_context.Movies.Add(movie);
+            //_context.SaveChanges();
+			dal.AddMovie(movie);
+			dal.SaveChanges();
 
             movieDto.Id = movie.Id;
             return Created(new Uri(Request.RequestUri + "/" + movie.Id), movieDto);
@@ -60,14 +61,15 @@ namespace Vidionic.Controllers.Api
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var movieInDb = _context.Movies.SingleOrDefault(c => c.Id == id);
+	        var movieInDb = dal.GetMovieSingleOrDefaultLazyLoad(id);
 
             if (movieInDb == null)
                 return NotFound();
 
             Mapper.Map(movieDto, movieInDb);
 
-            _context.SaveChanges();
+            //_context.SaveChanges();
+			dal.SaveChanges();
 
             return Ok();
         }
@@ -76,13 +78,15 @@ namespace Vidionic.Controllers.Api
         [Authorize(Roles = RoleName.CanManageMovies)]
 		public IHttpActionResult DeleteMovie(int id)
         {
-            var movieInDb = _context.Movies.SingleOrDefault(c => c.Id == id);
+	        var movieInDb = dal.GetMovieSingleOrDefaultLazyLoad(id);
 
             if (movieInDb == null)
                 return NotFound();
 
-            _context.Movies.Remove(movieInDb);
-            _context.SaveChanges();
+            //_context.Movies.Remove(movieInDb);
+            //_context.SaveChanges();
+			dal.DeleteMovie(movieInDb);
+			dal.SaveChanges();
 
             return Ok();
         }

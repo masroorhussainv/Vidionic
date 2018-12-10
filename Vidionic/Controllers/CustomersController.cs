@@ -12,30 +12,27 @@ namespace Vidionic.Controllers
 	[Authorize(Roles = RoleName.CanManageMovies)]
 	public class CustomersController : Controller
     {
-        private ApplicationDbContext _context;
+        //private ApplicationDbContext _context;
+
+	    private DAL dal;
+
 
         public CustomersController()
         {
-            _context=new ApplicationDbContext();
+            //_context=new ApplicationDbContext();
+			dal=new DAL();
         }
-        //applicationdb context is a disposable object
-        //therefore to dispose it, override base class (COntroller's) dispose method
-        protected override void Dispose(bool disposing)
-        {
-            _context.Dispose();
-        }
-
-       
-
-        // GET: Customers
+        
+        // GET: /Customers
         public ActionResult Index()
         {
             return View();
         }
 
+		// /Customers/New
         public ActionResult New()
         {
-            var membershipTypes = _context.MembershipTypes.ToList();
+	        var membershipTypes = dal.GetMembershipTypes();
             CustomerFormViewModel formViewModel = new CustomerFormViewModel
             {
                 MembershipTypes = membershipTypes
@@ -56,34 +53,36 @@ namespace Vidionic.Controllers
 			//    };
 			//    return View("CustomerForm", viewModel);
 			//}
-
+			
 			System.Diagnostics.Debug.WriteLine("value is : "+customer.IsSubscribedToNewsletter);
 
 			if (customer.Id == 0)
             {
                 //new customer
                 //add to db
-                _context.Customers.Add(customer);
+                //_context.Customers.Add(customer);
+				dal.AddCustomer(customer);
             }
             else
             {
-                var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
+                var customerInDb = dal.GetCustomerSingleLazyLoad(customer.Id);
+
                 customerInDb.Name = customer.Name;
                 customerInDb.Birthdate = customer.Birthdate;
                 customerInDb.Name = customer.Name;
                 customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
                 customerInDb.MembershipTypeId = customer.MembershipTypeId;
                 customerInDb.MembershipType = customer.MembershipType;
-
             }
-            _context.SaveChanges();
+            //_context.SaveChanges();
+			dal.SaveChanges();
 
             return RedirectToAction("Index","Customers");
         }
 
         public ActionResult Details(int id)
         {
-            var customer = _context.Customers.Include(c=>c.MembershipType).SingleOrDefault(c => c.Id == id);
+	        var customer = dal.GetCustomerSingleOrDefaultEagerLoad(id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -93,13 +92,13 @@ namespace Vidionic.Controllers
 
         public ActionResult Edit(int id)
         {
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+	        var customer = dal.GetCustomerSingleOrDefaultLazyLoad(id);
             if (customer == null)
                 HttpNotFound();
             var viewModel =new CustomerFormViewModel
             {
                 Customer=customer,
-                MembershipTypes=_context.MembershipTypes.ToList()
+                MembershipTypes= dal.GetMembershipTypes()
             };
             return View("CustomerForm", viewModel);
         }

@@ -14,19 +14,21 @@ namespace Vidionic.Controllers.Api
 	[Authorize(Roles = RoleName.CanManageMovies)]
     public class CustomersController : ApiController
     {
-        private ApplicationDbContext _context;
+        //private ApplicationDbContext _context;
+
+	    private DAL dal;
 
         public CustomersController()
         {
-            _context = new ApplicationDbContext();
+            //_context = new ApplicationDbContext();
+			dal=new DAL();
         }
 
         // GET /api/customers
         public IHttpActionResult GetCustomers()
         {
-            var customerDtos = _context.Customers
-				.Include(c=>c.MembershipType)
-				.ToList()
+            var customerDtos = 
+				dal.GetCustomersEagerLoad()
 				.Select(Mapper.Map<Customer, CustomerDto>);
 
             return Ok(customerDtos);
@@ -35,9 +37,9 @@ namespace Vidionic.Controllers.Api
         // GET /api/customers/1
         public IHttpActionResult GetCustomer(int id)
         {
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+			var customer = dal.GetCustomerSingleOrDefaultLazyLoad(id);
 
-            if (customer == null)
+			if (customer == null)
                 return NotFound();
 
             return Ok(Mapper.Map<Customer, CustomerDto>(customer));
@@ -51,8 +53,10 @@ namespace Vidionic.Controllers.Api
                 return BadRequest();
 
             var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
-            _context.Customers.Add(customer);
-            _context.SaveChanges();
+            //_context.Customers.Add(customer);
+			dal.AddCustomer(customer);
+            //_context.SaveChanges();
+			dal.SaveChanges();
 
             customerDto.Id = customer.Id;
             return Created(new Uri(Request.RequestUri + "/" + customer.Id), customerDto);
@@ -65,14 +69,14 @@ namespace Vidionic.Controllers.Api
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
+            var customerInDb = dal.GetCustomerSingleOrDefaultLazyLoad(id);
 
             if (customerInDb == null)
                 return NotFound();
 
             Mapper.Map(customerDto, customerInDb);
 
-            _context.SaveChanges();
+           dal.SaveChanges();
 
             return Ok();
         }
@@ -81,14 +85,15 @@ namespace Vidionic.Controllers.Api
         [HttpDelete]
         public IHttpActionResult DeleteCustomer(int id)
         {
-            var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
+	        var customerInDb = dal.GetCustomerSingleOrDefaultLazyLoad(id);
 
             if (customerInDb == null)
                 return NotFound();
 
-            _context.Customers.Remove(customerInDb);
-            _context.SaveChanges();
-
+            //_context.Customers.Remove(customerInDb);
+			dal.DeleteCustomer(customerInDb);
+            //_context.SaveChanges();
+			dal.SaveChanges();
             return Ok();
         }
     }

@@ -14,39 +14,15 @@ namespace Vidionic.Controllers
 {
     public class MoviesController : Controller
     {
-        private ApplicationDbContext _context;
+        //private ApplicationDbContext _context;
+	    private DAL dal;
 
         public MoviesController()
         {
-            _context=new ApplicationDbContext();
+            //_context=new ApplicationDbContext();
+			dal=new DAL();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            _context.Dispose();
-        }
-
-        // GET: Movies
-        public ActionResult Random()
-        {
-            var movie=new Movie() {Name = "Shrek"};
-            List<Customer> customers=new List<Customer>
-            {
-                new Customer { Name="Customer 1"},
-                new Customer { Name = "Customer 2"},
-                new Customer { Name="Customer 3"},
-                new Customer { Name = "Customer 4"},
-                new Customer { Name="Customer 5"},
-                new Customer { Name = "Customer 6"},
-            };
-
-            var vm=new RandomMovieViewModel();
-            vm.Movie = movie;
-            vm.Customers = customers;
-
-            return View(vm);
-        }
-        
 		// /localhost:port/movies/
         public ActionResult Index()
         {
@@ -60,25 +36,16 @@ namespace Vidionic.Controllers
         //[Route("/movies/details/{id}")]
         public ActionResult Details(int id)
         {
-            var movie = _context.Movies.Include(m=>m.Genre).SingleOrDefault(m => m.Id == id);
+	        var movie = dal.GetMovieSingleOrDefaultEagerLoad(id);
             if (movie == null)
                 return HttpNotFound();
             return View(movie);
         }
 
-
-
-        [Route("movies/released/{year}/{month:range(1,12)}")]
-        public ActionResult ByReleaseDate(int year,int month)
-        {
-            return Content("Year "+year+", "+"Month "+month);
-        }
-
-
 		[Authorize(Roles = RoleName.CanManageMovies)]
         public ViewResult New()
-        {
-            var genres = _context.Genres.ToList();
+		{
+			var genres = dal.GetGenres();
             var viewModel = new MovieFormViewModel
             {
                 Genres = genres
@@ -88,14 +55,14 @@ namespace Vidionic.Controllers
 
 	    [Authorize(Roles = RoleName.CanManageMovies)]
 		public ActionResult Edit(int id)
-        {
-            var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
+	    {
+		    var movie = dal.GetMovieSingleOrDefaultLazyLoad(id);
             if (movie == null)
                 return HttpNotFound();
             var viewModel = new MovieFormViewModel
             {
                 Movie = movie,
-                Genres = _context.Genres.ToList()
+                Genres = dal.GetGenres()
             };
             return View("MovieForm", viewModel);
         }
@@ -109,12 +76,12 @@ namespace Vidionic.Controllers
             {
                 //its a new movie to be added into db
                 movie.DateAdded = DateTime.Now;
-                _context.Movies.Add(movie);
+                dal.AddMovie(movie);
             }
             else
             {
                 //it's an old movie being updated
-                var movieInDb = _context.Movies.Single(m => m.Id == movie.Id);
+	            var movieInDb = dal.GetMovieSingleLazyLoad(movie.Id);
                 movieInDb.Name = movie.Name;
                 movieInDb.GenreId = movie.GenreId;
                 movieInDb.NumberInStock = movie.NumberInStock;
@@ -123,7 +90,7 @@ namespace Vidionic.Controllers
 
             try
             {
-                _context.SaveChanges();
+                dal.SaveChanges();
             }
             catch (DbEntityValidationException ex)
             {
