@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 65px;
+    padding-top: 0px;
     padding-bottom: 20px;
 }
 
@@ -26,4 +26,10 @@ textarea {
 #Facebook {
 	color:white;
 	background-color: #008CBA;
+}
+
+
+.navbar-nav > li{
+	padding-left:20px;
+	padding-right:20px;
 }

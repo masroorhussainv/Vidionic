@@ -287,6 +287,7 @@
     <Compile Include="ViewModels\RandomMovieViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-custom.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
@@ -396,13 +397,17 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
-    <Content Include="Content\Images\arrow.svg" />
-    <Content Include="Content\Images\banner.jpg" />
-    <Content Include="Content\Images\banner.mp4" />
-    <Content Include="Content\Images\banner.webm" />
-    <Content Include="Content\Images\LandingPage\pic01.jpg" />
-    <Content Include="Content\Images\LandingPage\pic02.jpg" />
-    <Content Include="Content\LandingPage\main.css" />
+    <Content Include="Content\half-slider.css" />
+    <Content Include="Content\LandingPage\dunkirk.jpg" />
+    <Content Include="Content\LandingPage\fantastic.jpg" />
+    <Content Include="Content\LandingPage\godfather.jpg" />
+    <Content Include="Content\LandingPage\harry.jpg" />
+    <Content Include="Content\LandingPage\hobbit.jpg" />
+    <Content Include="Content\LandingPage\images\dunkirk.jpg" />
+    <Content Include="Content\LandingPage\images\fantastic.jpg" />
+    <Content Include="Content\LandingPage\images\godfather.jpg" />
+    <Content Include="Content\LandingPage\images\harry.jpg" />
+    <Content Include="Content\LandingPage\images\hobbit.jpg" />
     <Content Include="Content\styles.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome.min.css" />
@@ -485,7 +490,9 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
