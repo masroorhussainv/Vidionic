@@ -9,7 +9,8 @@ using Vidionic.ViewModels;
 
 namespace Vidionic.Controllers
 {
-    public class CustomersController : Controller
+	[Authorize(Roles = RoleName.CanManageMovies)]
+	public class CustomersController : Controller
     {
         private ApplicationDbContext _context;
 

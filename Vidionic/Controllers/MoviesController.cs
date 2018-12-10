@@ -47,22 +47,7 @@ namespace Vidionic.Controllers
             return View(vm);
         }
         
-
-        //public ActionResult Index(int? pageIndex,string sortBy)
-        //{
-        //    if (!pageIndex.HasValue)
-        //    {
-        //        pageIndex = 1;
-        //    }
-        //    if (sortBy.IsNullOrWhiteSpace())
-        //    {
-        //        sortBy = "Name";
-        //    }
-
-        //    return View();
-        //}
-
-      
+		// /localhost:port/movies/
         public ActionResult Index()
         {
 	        if (User.IsInRole(RoleName.CanManageMovies))

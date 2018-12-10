@@ -11,6 +11,7 @@ using Vidionic.Models;
 
 namespace Vidionic.Controllers.Api
 {
+	[Authorize(Roles = RoleName.CanManageMovies)]
     public class CustomersController : ApiController
     {
         private ApplicationDbContext _context;

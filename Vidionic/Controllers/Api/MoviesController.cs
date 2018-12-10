@@ -20,8 +20,7 @@ namespace Vidionic.Controllers.Api
         {
             _context = new ApplicationDbContext();
         }
-
-        public IEnumerable<MovieDto> GetMovies()
+	    public IEnumerable<MovieDto> GetMovies()
         {
 			return _context.Movies
 				.Include(m => m.Genre)

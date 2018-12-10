@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 65px;
     padding-bottom: 20px;
 }
 
@@ -22,4 +22,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#Facebook {
+	color:white;
+	background-color: #008CBA;
 }
