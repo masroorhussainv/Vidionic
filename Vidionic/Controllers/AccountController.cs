@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Vidionic.Models;
@@ -155,6 +156,15 @@ namespace Vidionic.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+					//Temp code
+					//var roleStore=new RoleStore<IdentityRole>(new ApplicationDbContext());
+					//var rolemanager=new RoleManager<IdentityRole>(roleStore);
+					////create role
+	    //            await rolemanager.CreateAsync(new IdentityRole("CanManageMovies"));
+					////add the user
+	    //            await UserManager.AddToRoleAsync(user.Id, "CanManageMovies");
+
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

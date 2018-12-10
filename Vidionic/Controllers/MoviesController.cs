@@ -65,7 +65,11 @@ namespace Vidionic.Controllers
       
         public ActionResult Index()
         {
-			return View();
+	        if (User.IsInRole(RoleName.CanManageMovies))
+	        {
+		        return View("List");
+	        }
+			return View("ReadOnlyList");
 		}
 
         //[Route("/movies/details/{id}")]
@@ -86,6 +90,7 @@ namespace Vidionic.Controllers
         }
 
 
+		[Authorize(Roles = RoleName.CanManageMovies)]
         public ViewResult New()
         {
             var genres = _context.Genres.ToList();
@@ -96,7 +101,8 @@ namespace Vidionic.Controllers
             return View("MovieForm", viewModel);
         }
 
-        public ActionResult Edit(int id)
+	    [Authorize(Roles = RoleName.CanManageMovies)]
+		public ActionResult Edit(int id)
         {
             var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
             if (movie == null)
@@ -111,7 +117,8 @@ namespace Vidionic.Controllers
 
 
         [HttpPost]
-        public ActionResult Save(Movie movie)
+        [Authorize(Roles = RoleName.CanManageMovies)]
+		public ActionResult Save(Movie movie)
         {
             if (movie.Id == 0)
             {

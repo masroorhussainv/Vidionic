@@ -8,6 +8,7 @@ using AutoMapper;
 using Vidionic.Dtos;
 using Vidionic.Models;
 using System.Data.Entity;
+using Vidionic.Models;
 
 namespace Vidionic.Controllers.Api
 {
@@ -39,7 +40,8 @@ namespace Vidionic.Controllers.Api
         }
 
         [HttpPost]
-        public IHttpActionResult CreateMovie(MovieDto movieDto)
+        [Authorize(Roles = RoleName.CanManageMovies)]
+		public IHttpActionResult CreateMovie(MovieDto movieDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -53,7 +55,8 @@ namespace Vidionic.Controllers.Api
         }
 
         [HttpPut]
-        public IHttpActionResult UpdateMovie(int id, MovieDto movieDto)
+        [Authorize(Roles = RoleName.CanManageMovies)]
+		public IHttpActionResult UpdateMovie(int id, MovieDto movieDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -71,7 +74,8 @@ namespace Vidionic.Controllers.Api
         }
 
         [HttpDelete]
-        public IHttpActionResult DeleteMovie(int id)
+        [Authorize(Roles = RoleName.CanManageMovies)]
+		public IHttpActionResult DeleteMovie(int id)
         {
             var movieInDb = _context.Movies.SingleOrDefault(c => c.Id == id);
 
