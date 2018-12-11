@@ -13,7 +13,9 @@ namespace Vidionic
 					    "~/Scripts/bootstrap.js",
 						"~/Scripts/respond.js",
 						"~/scripts/datatables/jquery.datatables.js",
-						"~/scripts/datatables/datatables.bootstrap.js"));
+						"~/scripts/datatables/datatables.bootstrap.js",	
+						"~/scripts/typeahead.bundle.js",
+						"~/scripts/toastr.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -26,7 +28,9 @@ namespace Vidionic
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
 					  "~/content/datatables/css/datatables.bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/content/typeahead.css",
+                      "~/Content/site.css",
+					  "~/content/toastr.css"));
         }
     }
 }

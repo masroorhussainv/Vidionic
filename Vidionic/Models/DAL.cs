@@ -35,7 +35,8 @@ namespace Vidionic.Models
 			return _context.Customers
 				.Include(c => c.MembershipType)
 				.ToList();
-		}
+		} 
+
 
 		public Customer GetCustomerSingleLazyLoad(int id)
 		{
