@@ -72,7 +72,22 @@ namespace Vidionic.Controllers
         [Authorize(Roles = RoleName.CanManageMovies)]
 		public ActionResult Save(Movie movie)
         {
-            if (movie.Id == 0)
+	        var errors = ModelState
+		        .Where(x => x.Value.Errors.Count > 0)
+		        .Select(x => new { x.Key, x.Value.Errors })
+		        .ToArray();
+
+			//if (!ModelState.IsValid)
+	  //      {
+		 //       var viewModel = new MovieFormViewModel()
+		 //       {
+			//        Genres = dal.GetGenres()
+		 //       };
+		 //       return View("MovieForm", viewModel);
+	  //      }
+
+
+			if (movie.Id == 0)
             {
                 //its a new movie to be added into db
                 movie.DateAdded = DateTime.Now;

@@ -46,14 +46,14 @@ namespace Vidionic.Controllers
         {
 			//if (!ModelState.IsValid)
 			//{
-			//    var viewModel = new CustomerFormViewModel
-			//    {
-			//        Customer=customer,
-			//        MembershipTypes = _context.MembershipTypes.ToList()
-			//    };
-			//    return View("CustomerForm", viewModel);
+			//	var viewModel = new CustomerFormViewModel
+			//	{
+			//		Customer = customer,
+			//		MembershipTypes = dal.GetMembershipTypes()
+			//	};
+			//	return View("CustomerForm", viewModel);
 			//}
-			
+
 			System.Diagnostics.Debug.WriteLine("value is : "+customer.IsSubscribedToNewsletter);
 
 			if (customer.Id == 0)
